@@ -34,10 +34,24 @@ namespace VårbyBilbiotek
                         data.AddLoanCardToPerson(ChooseLCTP);
                         break;
                     case 4:
+                        WriteOutPersons(context);
+                        Console.WriteLine();
+                        WriteOutBooks(context);
+                        Console.WriteLine();
+                        int ChoosePersonFC = ChoosePerson(context);
+                        Console.WriteLine();
+                        int ChooseBookFC = ChooseBook(context);
                         data.AddBookIdToPersonLoanCard(5, 8);
                         break;
                     case 5:
-                        data.AddBookToDatabase("CV bok", 6, 7);
+                        Console.WriteLine("Write the name of the book you want to add");
+                        string bookTitle;
+                        do
+                        {
+                            bookTitle = Console.ReadLine();
+                        } while (bookTitle. != "");
+                        
+                        data.AddBookToDatabase("CV bok", 6);
                         break;
                     case 6:
                         data.MarkBookAsNotLoaned(14);
@@ -164,14 +178,34 @@ namespace VårbyBilbiotek
             }
         }
 
+        public static void WriteOutBooks(Context context)
+        {
+            int counter = 0;
+
+
+            foreach (var book in context.Books)
+            {
+
+                string personInfo = $"(ID: {book.Id}) : Book title: {book.Title} Released: {book.Year} (Loaned: {book.Loaned})\n ";
+                Console.WriteLine(personInfo);
+
+                counter++;
+
+                if (counter % 3 == 0)
+                {
+
+                    Console.WriteLine("----------------------------------------");
+                }
+            }
+        }
+
+
         public static int ChoosePerson(Context context)
         {
 
             do
             {
-                
-
-                int intChoice = 0;
+               int intChoice = 0;
                 string choice;
                 int Max = context.Persons.Count();
 
@@ -188,12 +222,33 @@ namespace VårbyBilbiotek
 
             } while (true);
 
-            
+        }
 
+        public static int ChooseBook(Context context)
+        {
 
+            do
+            {
+                int intChoice = 0;
+                string choice;
+                int Max = context.Books.Count();
 
+                Console.WriteLine($"Choose a number between number {intChoice} and {Max}");
+
+                if (int.TryParse(choice = Console.ReadLine(), out intChoice) && intChoice >= 0 && intChoice <= Max)
+                {
+                    return intChoice;
+                }
+                else
+                {
+                    Console.WriteLine("Wrong input");
+                }
+
+            } while (true);
 
         }
+
+        
 
     }
 }
