@@ -29,7 +29,8 @@ namespace VårbyBilbiotek
                         break;
                     case 3:
                         WriteOutPersons(context);
-                        int ChooseLCTP = ChooserLoancardToPers(context);
+                        Console.WriteLine();
+                        int ChooseLCTP = ChoosePerson(context);
                         data.AddLoanCardToPerson(ChooseLCTP);
                         break;
                     case 4:
@@ -163,7 +164,7 @@ namespace VårbyBilbiotek
             }
         }
 
-        public static int ChooserLoancardToPers(Context context)
+        public static int ChoosePerson(Context context)
         {
 
             do
