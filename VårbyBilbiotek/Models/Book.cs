@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -54,7 +55,7 @@ namespace VårbyBilbiotek.Models
 
         public int Grade { get; set; } = new Random().Next(1, 5);
 
-        
+        public ICollection<Log>? BookLog { get; set; } 
         
         public int? LoanCardId { get; set; }
         

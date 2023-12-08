@@ -235,16 +235,23 @@ namespace VårbyBilbiotek.Data
             using (var context = new Context())
             {               
                 var RemoveB = context.Books.SingleOrDefault(b => b.Id == bookId);
-                
+                var RemoveL = context.Logs.SingleOrDefault(b => b.Book.Id == bookId);
+
                 if (RemoveB != null)
-                {                   
-                    context.Books.Remove(RemoveB);   
+                {
+                    if (RemoveL != null)
+                    {
+                        context.Logs.Remove(RemoveL);
+                    }
+                    context.Books.Remove(RemoveB);
+                    
                     context.SaveChanges();
                 }
                 else
                 {
                     Console.WriteLine($"No book with Id# {bookId}");
                 }
+                
             }
         }
 

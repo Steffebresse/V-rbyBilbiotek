@@ -12,7 +12,7 @@ using VårbyBilbiotek.Data;
 namespace VårbyBilbiotek.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20231208115915_initial")]
+    [Migration("20231208122028_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -197,7 +197,7 @@ namespace VårbyBilbiotek.Migrations
             modelBuilder.Entity("VårbyBilbiotek.Models.Log", b =>
                 {
                     b.HasOne("VårbyBilbiotek.Models.Book", "Book")
-                        .WithMany()
+                        .WithMany("BookLog")
                         .HasForeignKey("BookId");
 
                     b.Navigation("Book");
@@ -210,6 +210,11 @@ namespace VårbyBilbiotek.Migrations
                         .HasForeignKey("loanCardId");
 
                     b.Navigation("loanCard");
+                });
+
+            modelBuilder.Entity("VårbyBilbiotek.Models.Book", b =>
+                {
+                    b.Navigation("BookLog");
                 });
 
             modelBuilder.Entity("VårbyBilbiotek.Models.LoanCard", b =>

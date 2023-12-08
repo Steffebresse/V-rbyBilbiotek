@@ -194,7 +194,7 @@ namespace VårbyBilbiotek.Migrations
             modelBuilder.Entity("VårbyBilbiotek.Models.Log", b =>
                 {
                     b.HasOne("VårbyBilbiotek.Models.Book", "Book")
-                        .WithMany()
+                        .WithMany("BookLog")
                         .HasForeignKey("BookId");
 
                     b.Navigation("Book");
@@ -207,6 +207,11 @@ namespace VårbyBilbiotek.Migrations
                         .HasForeignKey("loanCardId");
 
                     b.Navigation("loanCard");
+                });
+
+            modelBuilder.Entity("VårbyBilbiotek.Models.Book", b =>
+                {
+                    b.Navigation("BookLog");
                 });
 
             modelBuilder.Entity("VårbyBilbiotek.Models.LoanCard", b =>
