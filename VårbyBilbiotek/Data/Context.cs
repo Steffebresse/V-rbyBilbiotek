@@ -14,6 +14,7 @@ namespace VårbyBilbiotek.Data
         public DbSet<Book> Books { get; set; }
         public DbSet<Person> Persons { get; set; }
         public DbSet<LoanCard> LoanC { get; set; }
+        public DbSet<Log> Logs { get; set; }
 
         /*
         protected override void OnModelCreating(ModelBuilder modelBuilder)

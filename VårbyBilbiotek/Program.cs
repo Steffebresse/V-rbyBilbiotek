@@ -1,5 +1,6 @@
 ﻿using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using VårbyBilbiotek.Data;
 using VårbyBilbiotek.Models;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -25,23 +26,11 @@ namespace VårbyBilbiotek
 
         }
 
-
+        
 
         public static int Menu()
         {
-            Console.WriteLine("VårbyBilbioteket\n\n");
-
-            Console.WriteLine("1. Adding stuff (under menu)");
-            Console.WriteLine("2. Clear the whole database");
-            Console.WriteLine("3. Add Loancard to a person");
-            Console.WriteLine("4. Add a book to person");
-            Console.WriteLine("5. Add book to library");
-            Console.WriteLine("6. Unloan a book");
-            Console.WriteLine("7. Remove book from library");
-            Console.WriteLine("8. Remove person from library");
-            Console.WriteLine("9 - Remove autor from database");
-            Console.WriteLine("10 - Write out all information in library");
-            Console.WriteLine("Q - quit");
+           
 
             //data.CreateFiller();
             //data.Clear();
@@ -55,10 +44,25 @@ namespace VårbyBilbiotek
 
             do
             {
+
+                Console.WriteLine("VårbyBilbioteket\n\n");
+
+                Console.WriteLine("1. Adding enteties (under menu)");
+                Console.WriteLine("2. Clear the whole database");
+                Console.WriteLine("3. Add Loancard to a person");
+                Console.WriteLine("4. Add a book to person");
+                Console.WriteLine("5. Unloan a book");
+                Console.WriteLine("6. Remove book from library");
+                Console.WriteLine("7. Remove person from library");
+                Console.WriteLine("8 - Remove autor from database");
+                Console.WriteLine("9 - Write out all information in library");
+                Console.WriteLine("Q - quit");
+
+
                 Console.WriteLine("\nPlease choose from the following choices");
                 string input = Console.ReadLine();
                 int choice = 0;
-                if (int.TryParse(input,out choice) && choice >= 1 && choice <= 10)
+                if (int.TryParse(input,out choice) && choice >= 1 && choice <= 9)
                 {
                     return choice;
                 }
@@ -81,13 +85,14 @@ namespace VårbyBilbiotek
         public static int MenuForUnderMenu()
         {
 
-            Console.WriteLine("1. Create Filler items");
-            Console.WriteLine("2. Add a person to the library");
-            Console.WriteLine("3. Add a book to the library");
-            Console.WriteLine("4. Add a book to the library");
-
             do
             {
+                Console.WriteLine("1. Create Filler items");
+                Console.WriteLine("2. Add a person to the library");
+                Console.WriteLine("3. Add a book to the library");
+                Console.WriteLine("4. Add a autor to the library");
+                Console.WriteLine("Q - Return to main");
+
                 Console.WriteLine("\nPlease choose from the following choices");
                 string input = Console.ReadLine();
                 int choice = 0;
@@ -124,9 +129,12 @@ namespace VårbyBilbiotek
                     switch (choiceFUM)
                     {
                         case 1:
-                            data.Clear();
+                            Console.Clear();
+                            
+                            data.CreateFiller();
                             break;
                         case 2:
+                            Console.Clear();
                             Console.WriteLine("Write the first name of the person you want to add");
                             string FirstName;
                             do
@@ -142,6 +150,7 @@ namespace VårbyBilbiotek
                             data.AddPersonToDatabase(FirstName,LastName);
                             break;
                         case 3:
+                            Console.Clear();
                             Console.WriteLine("Write the name of the book you want to add");
                             string BookName;
                             do
@@ -187,6 +196,7 @@ namespace VårbyBilbiotek
                     data.AddBookIdToPersonLoanCard(ChoosePersonFC, ChooseBookFC);
                     break;
                 case 5:
+
                     Console.WriteLine("Choose which book has been returned");
                     WriteOutBooks(context);
                     int ChooseBookTR = ChooseBook(context);

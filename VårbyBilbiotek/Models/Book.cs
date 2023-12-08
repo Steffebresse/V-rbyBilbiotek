@@ -54,7 +54,7 @@ namespace VårbyBilbiotek.Models
 
         public int Grade { get; set; } = new Random().Next(1, 5);
 
-
+        
         
         public int? LoanCardId { get; set; }
         

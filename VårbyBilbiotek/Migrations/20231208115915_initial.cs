@@ -30,7 +30,7 @@ namespace VårbyBilbiotek.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Pin = table.Column<int>(type: "int", nullable: false)
+                    Pin = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -106,6 +106,27 @@ namespace VårbyBilbiotek.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Logs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DayBookWasReturned = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    BookId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Logs", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Logs_Books_BookId",
+                        column: x => x.BookId,
+                        principalTable: "Books",
+                        principalColumn: "Id");
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AutorBook_BooksId",
                 table: "AutorBook",
@@ -115,6 +136,11 @@ namespace VårbyBilbiotek.Migrations
                 name: "IX_Books_LoanCardId",
                 table: "Books",
                 column: "LoanCardId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Logs_BookId",
+                table: "Logs",
+                column: "BookId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Persons_loanCardId",
@@ -127,6 +153,9 @@ namespace VårbyBilbiotek.Migrations
         {
             migrationBuilder.DropTable(
                 name: "AutorBook");
+
+            migrationBuilder.DropTable(
+                name: "Logs");
 
             migrationBuilder.DropTable(
                 name: "Persons");

@@ -48,6 +48,7 @@ namespace VårbyBilbiotek.Data
                     context.Persons.Add(person);
                     context.Books.Add(book);
                     context.Autors.Add(autor);
+                    loanCard.Pin = EncryptWithKey(loanCard.Pin, "boobafett");
                     context.LoanC.Add(loanCard);
 
                     
@@ -63,19 +64,26 @@ namespace VårbyBilbiotek.Data
             using (var context = new Context())
             {
                 var book = context.Books.Include(b => b.LoanCard).FirstOrDefault(b => b.Id == bookId);
-
+                
                 if (book != null)
                 {
-                    
+                    Log log = new Log();
+                    log.Book = book;
+                    log.DayBookWasReturned = DateTime.Now;
+                    log.Title = book.Title;
+                    context.Logs.Add(log);
+
                     book.LoanCardId = null;
 
                   
                     if (book.LoanCard != null)
                     {
+                        
                         book.LoanCard.Books.Remove(book);
                         book.LoanDate = null;
                         book.ReturnDate= null;
                         book.Loaned = false;
+                        
                     }
 
                     // Save changes to the database
@@ -152,7 +160,7 @@ namespace VårbyBilbiotek.Data
 
                 // Step 2: Create a new LoanCard
                 var loanCard = new LoanCard();
-
+                loanCard.Pin = EncryptWithKey(loanCard.Pin, "boobafett");
                 // Step 3: Link the LoanCard to the Person
                 person.loanCard = loanCard;
 
@@ -304,6 +312,19 @@ namespace VårbyBilbiotek.Data
             }
 
             return value.ToString();
+        }
+
+        public static string EncryptWithKey(string text, string key)
+        {
+            byte[] textBytes = Encoding.UTF8.GetBytes(text);
+            byte[] KextBytes = Encoding.UTF8.GetBytes(key);
+            byte[] encryptedBytes = new byte[KextBytes.Length];
+
+            for (int i = 0; i < textBytes.Length; i++)
+            {
+                encryptedBytes[i] = (byte)(textBytes[i] ^ KextBytes[i & KextBytes.Length]);
+            }
+            return Convert.ToBase64String(encryptedBytes);
         }
 
     }

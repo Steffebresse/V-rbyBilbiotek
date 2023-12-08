@@ -11,11 +11,13 @@ namespace VårbyBilbiotek.Models
     {
         public int Id { get; set; }
 
-        public int Pin { get; set; } = new Random().Next(1000, 9999);
+        public string Pin { get; set; } = new Random().Next(1000, 9999).ToString();
         
         
         public ICollection<Book>? Books { get; set; }
 
 
     }
+
+    
 }

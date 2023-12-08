@@ -12,7 +12,7 @@ using VårbyBilbiotek.Data;
 namespace VårbyBilbiotek.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20231207222443_initial")]
+    [Migration("20231208115915_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -107,12 +107,41 @@ namespace VårbyBilbiotek.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Pin")
-                        .HasColumnType("int");
+                    b.Property<string>("Pin")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("LoanC");
+                });
+
+            modelBuilder.Entity("VårbyBilbiotek.Models.Log", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("BookId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DayBookWasReturned")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId");
+
+                    b.ToTable("Logs");
                 });
 
             modelBuilder.Entity("VårbyBilbiotek.Models.Person", b =>
@@ -163,6 +192,15 @@ namespace VårbyBilbiotek.Migrations
                         .HasForeignKey("LoanCardId");
 
                     b.Navigation("LoanCard");
+                });
+
+            modelBuilder.Entity("VårbyBilbiotek.Models.Log", b =>
+                {
+                    b.HasOne("VårbyBilbiotek.Models.Book", "Book")
+                        .WithMany()
+                        .HasForeignKey("BookId");
+
+                    b.Navigation("Book");
                 });
 
             modelBuilder.Entity("VårbyBilbiotek.Models.Person", b =>
