@@ -12,6 +12,7 @@ namespace VårbyBilbiotek
         {
             Context context = new Context();
             int choice;
+            int choiceFUM;
             DataAccess data = new DataAccess();
             do
             {
@@ -30,7 +31,7 @@ namespace VårbyBilbiotek
         {
             Console.WriteLine("VårbyBilbioteket\n\n");
 
-            Console.WriteLine("1. Create Placeholder items");
+            Console.WriteLine("1. Adding stuff (under menu)");
             Console.WriteLine("2. Clear the whole database");
             Console.WriteLine("3. Add Loancard to a person");
             Console.WriteLine("4. Add a book to person");
@@ -77,14 +78,93 @@ namespace VårbyBilbiotek
   
         }
 
+        public static int MenuForUnderMenu()
+        {
+
+            Console.WriteLine("1. Create Filler items");
+            Console.WriteLine("2. Add a person to the library");
+            Console.WriteLine("3. Add a book to the library");
+            Console.WriteLine("4. Add a book to the library");
+
+            do
+            {
+                Console.WriteLine("\nPlease choose from the following choices");
+                string input = Console.ReadLine();
+                int choice = 0;
+                if (int.TryParse(input, out choice) && choice >= 1 && choice <= 4)
+                {
+                    return choice;
+                }
+                else if (input.ToLower() == "q")
+                {
+                    return choice = -1;
+                }
+                else
+                {
+                    Console.WriteLine("Wrong input, you have to choose between 1 and 4 or 'Q'");
+                }
+
+                
+
+            } while (true);
+
+
+        }
+
+
+
         public static void MenuChoice(int choice, Context context, DataAccess data)
         {
+            int choiceFUM;
+
             switch (choice)
             {
                 case 1:
-                    data.CreateFiller();
-                    Console.WriteLine("Created filler!");
-
+                    choiceFUM = MenuForUnderMenu();
+                    switch (choiceFUM)
+                    {
+                        case 1:
+                            data.Clear();
+                            break;
+                        case 2:
+                            Console.WriteLine("Write the first name of the person you want to add");
+                            string FirstName;
+                            do
+                            {
+                                FirstName = Console.ReadLine();
+                            } while (FirstName.Trim() == "" || FirstName == null);
+                            Console.WriteLine("Write the lastname of the person you want to add");
+                            string LastName;
+                            do
+                            {
+                                LastName = Console.ReadLine();
+                            } while (LastName.Trim() == "" || LastName == null);
+                            data.AddPersonToDatabase(FirstName,LastName);
+                            break;
+                        case 3:
+                            Console.WriteLine("Write the name of the book you want to add");
+                            string BookName;
+                            do
+                            {
+                                BookName = Console.ReadLine();
+                            } while (BookName.Trim() == "" || BookName == null);
+                            Console.WriteLine("Choose the autor who has written this book");
+                            Console.WriteLine();
+                            WriteOutAutors(context);
+                            Console.WriteLine();
+                            int ChooseAutorFC = ChooseAutor(context);
+                            data.AddBookToDatabase(BookName, ChooseAutorFC); // den kan ha flera autors, men visste inte hur jag skulle ge den möjligheten inom en metod
+                            break;
+                        case 4:
+                            Console.WriteLine("Write the name of the autor you want to add");                            
+                            string FullName;
+                            do
+                            {
+                                FullName = Console.ReadLine();
+                            } while (FullName.Trim() == "" || FullName == null);
+                            data.AddAutorToDatabase(FullName);
+                            break;                       
+                    }
                     break;
                 case 2:
                     data.Clear();
@@ -107,33 +187,19 @@ namespace VårbyBilbiotek
                     data.AddBookIdToPersonLoanCard(ChoosePersonFC, ChooseBookFC);
                     break;
                 case 5:
-                    Console.WriteLine("Write the name of the book you want to add");
-                    string bookTitle;
-                    do
-                    {
-                        bookTitle = Console.ReadLine();
-                    } while (bookTitle.Trim() == "" || bookTitle == null);
-                    Console.WriteLine("Choose the autor who has written this book");
-                    Console.WriteLine();
-                    WriteOutAutors(context);
-                    Console.WriteLine();
-                    int ChooseAutorFC = ChooseAutor(context);
-                    data.AddBookToDatabase(bookTitle, ChooseAutorFC); // den kan ha flera autors, men visste inte hur jag skulle ge den möjligheten inom en metod
-                    break;
-                case 6:
                     Console.WriteLine("Choose which book has been returned");
                     WriteOutBooks(context);
                     int ChooseBookTR = ChooseBook(context);
                     data.MarkBookAsNotLoaned(ChooseBookTR);
                     break;
-                case 7:
+                case 6:
                     Console.WriteLine("Choose which book to destroy");
                     WriteOutBooks(context);
                     Console.WriteLine();
                     int BookToDestroy = ChooseBook(context);
                     data.RemoveBookFDB(BookToDestroy);
                     break;
-                case 8:
+                case 7:
                     Console.WriteLine("Choose which person to remove");
                     Console.WriteLine();
                     WriteOutPersons(context);
@@ -141,7 +207,7 @@ namespace VårbyBilbiotek
                     int PersonToRemove = ChoosePerson(context);
                     data.RemovePersonFDB(PersonToRemove);
                     break;
-                case 9:
+                case 8:
                     Console.WriteLine("Choose which autor to remove");
                     Console.WriteLine();
                     WriteOutAutors(context);
@@ -149,7 +215,7 @@ namespace VårbyBilbiotek
                     int AutorToRemove = ChooseAutor(context);
                     data.RemoveAuthorFDB(7);
                     break;
-                case 10:
+                case 9:
                     WriteOutAutors(context);
                     Console.WriteLine();
                     WriteOutBooks(context);

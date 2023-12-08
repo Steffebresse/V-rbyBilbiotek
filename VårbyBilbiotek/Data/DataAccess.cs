@@ -119,7 +119,22 @@ namespace VårbyBilbiotek.Data
             }
         }
 
-        
+        public void AddAutorToDatabase(string fullName)
+        {
+            using (var context = new Context())
+            {
+                var autor = new Autor
+                {
+                    Name = fullName
+                    
+                };
+
+                context.Autors.Add(autor);
+                context.SaveChanges();
+            }
+        }
+
+
 
         public void AddLoanCardToPerson(int id)
         {
