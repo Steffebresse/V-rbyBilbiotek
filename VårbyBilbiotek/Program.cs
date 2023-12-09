@@ -56,13 +56,14 @@ namespace VårbyBilbiotek
                 Console.WriteLine("7. Remove person from library");
                 Console.WriteLine("8 - Remove autor from database");
                 Console.WriteLine("9 - Write out all information in library");
+                Console.WriteLine("10 - Write out log");
                 Console.WriteLine("Q - quit");
 
 
                 Console.WriteLine("\nPlease choose from the following choices");
                 string input = Console.ReadLine();
                 int choice = 0;
-                if (int.TryParse(input,out choice) && choice >= 1 && choice <= 9)
+                if (int.TryParse(input,out choice) && choice >= 1 && choice <= 10)
                 {
                     return choice;
                 }
@@ -72,7 +73,7 @@ namespace VårbyBilbiotek
                 }
                 else
                 {
-                    Console.WriteLine("Wrong input, you have to choose between 1 and 9");
+                    Console.WriteLine("Wrong input, you have to choose between 1 and 10");
                 }
                 
 
@@ -232,6 +233,9 @@ namespace VårbyBilbiotek
                     Console.WriteLine();
                     WriteOutPersons(context);
                     break;
+                case 10:
+                    WriteOutLog(context);
+                    break;
 
 
             }
@@ -255,6 +259,29 @@ namespace VårbyBilbiotek
                 if (counter % 3 == 0)
                 {
                     
+                    Console.WriteLine("----------------------------------------");
+                }
+            }
+        }
+
+        public static void WriteOutLog(Context context)
+        {
+            int counter = 0;
+
+
+            foreach (var Logs in context.Logs)
+            {
+
+
+
+                string personInfo = $"(ID: {Logs.Id}) : Log Nr {Logs.Name} : Book title {Logs.Title} : Day book was returned {Logs.DayBookWasReturned}\n "; 
+                Console.WriteLine(personInfo);
+
+                counter++;
+
+                if (counter % 3 == 0)
+                {
+
                     Console.WriteLine("----------------------------------------");
                 }
             }
