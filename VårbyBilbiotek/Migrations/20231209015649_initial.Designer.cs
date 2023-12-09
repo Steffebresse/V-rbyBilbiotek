@@ -12,7 +12,7 @@ using VårbyBilbiotek.Data;
 namespace VårbyBilbiotek.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20231208122028_initial")]
+    [Migration("20231209015649_initial")]
     partial class initial
     {
         /// <inheritdoc />
