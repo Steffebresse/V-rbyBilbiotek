@@ -12,8 +12,8 @@ using VårbyBilbiotek.Data;
 namespace VårbyBilbiotek.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20231209015649_initial")]
-    partial class initial
+    [Migration("20231210130251_intital")]
+    partial class intital
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -37,8 +37,8 @@ namespace VårbyBilbiotek.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //optionsBuilder.UseSqlServer("Server=STEFANS-DATOR\\MSSQLSERVER02; Database=NewtonLibraryStefan; Trusted_Connection=True; Trust Server Certificate =Yes; User Id=NewtonLibraryStefan password=NewtonLibraryStefan"); // Detta är för den lokala servern
-            optionsBuilder.UseSqlServer("Server=tcp:newton-sefan-db.database.windows.net,1433;Initial Catalog=NewtonStefan;Persist Security Info=False;User ID=NewtonLibraryStefan;Password=NewtonLibrary1;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"); // Här är Azure Jens cloud Jens
+            optionsBuilder.UseSqlServer("Server=STEFANS-DATOR\\MSSQLSERVER02; Database=NewtonLibraryStefan; Trusted_Connection=True; Trust Server Certificate =Yes; User Id=NewtonLibraryStefan password=NewtonLibraryStefan"); // Detta är för den lokala servern
+            //optionsBuilder.UseSqlServer("Server=tcp:newton-sefan-db.database.windows.net,1433;Initial Catalog=NewtonStefan;Persist Security Info=False;User ID=NewtonLibraryStefan;Password=NewtonLibrary1;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"); // Här är Azure Jens cloud Jens
         }
 
     }

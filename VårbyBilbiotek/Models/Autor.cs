@@ -16,6 +16,9 @@ namespace VårbyBilbiotek.Models
 
         public ICollection<Book>? Books { get; set; }
 
-
+        public Autor()
+        {
+            Books = new List<Book>();
+        }
     }
 }

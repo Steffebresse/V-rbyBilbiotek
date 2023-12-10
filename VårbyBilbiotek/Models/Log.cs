@@ -14,7 +14,7 @@ namespace VårbyBilbiotek.Models
         public static int Count;
 
 
-        public string Name { get; set; } = "Log:" + " " + Count;
+        public string Name { get; set; }
 
         public string? Title { get; set; }
 
@@ -25,7 +25,8 @@ namespace VårbyBilbiotek.Models
 
         public Log()
         {
-            Count++;
+            ++Count;
+            Name = "Log:" + " " + Count;
         }
 
     }

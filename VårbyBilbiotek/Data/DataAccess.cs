@@ -42,11 +42,15 @@ namespace VårbyBilbiotek.Data
                     LoanCard loanCard= new LoanCard();
 
                     Autor autor= new Autor();
-
+                    
                     autor.Name = rnd.FullName;
 
+                    person.loanCard = loanCard;
+                    book.Autors.Add(autor);
+                    autor.Books.Add(book);
                     context.Persons.Add(person);
                     context.Books.Add(book);
+                    
                     context.Autors.Add(autor);
                     loanCard.Pin = EncryptWithKey(loanCard.Pin, "boobafett");
                     context.LoanC.Add(loanCard);
@@ -171,28 +175,62 @@ namespace VårbyBilbiotek.Data
         {
             using (var context = new Context())
             {
-                // Step 1: Retrieve the Person
-                var person = context.Persons.Find(id);
+                var person = context.Persons.Include(b => b.loanCard).FirstOrDefault(b => b.Id == id);
 
                 if (person == null)
                 {
-                    // Handle the case where the person with the specified ID doesn't exist
-                    // You can throw an exception, log a message, or take appropriate action
+                    Console.WriteLine($"No person with Id# {id}");
                     return;
                 }
 
-                // Step 2: Create a new LoanCard
-                var loanCard = new LoanCard();
-                loanCard.Pin = EncryptWithKey(loanCard.Pin, "boobafett");
-                // Step 3: Link the LoanCard to the Person
-                person.loanCard = loanCard;
+                if (person.loanCard != null)
+                {
+                    string input;
+                    int choice;
 
-                // Step 4: Save changes to the database
+                    Console.WriteLine($"Person already has a loan card (Persons loancard #{person.loanCard.Id})\nDo you want to give him a new one?\n1 - yes\n2 - no");
+
+                    while (true)
+                    {
+                        if (int.TryParse(input = Console.ReadLine(), out choice))
+                        {
+                            switch (choice)
+                            {
+                                case 1:
+                                    var loanCard = new LoanCard();
+                                    loanCard.Pin = EncryptWithKey(loanCard.Pin, "boobafett");
+                                    person.loanCard = loanCard;
+                                    break;
+                                case 2:
+                                    Console.WriteLine("Person Loancard remains");
+                                    break;
+                                default:
+                                    Console.WriteLine("Wrong input. Please enter 1 or 2.");
+                                    continue; // Continue to the next iteration for incorrect input
+                            }
+                            break; // Exit the loop for correct input (1 or 2)
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid input. Please enter a number.");
+                        }
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Person doesn't have a loan card. Creating a new one.");
+
+                    var loanCard = new LoanCard();
+                    loanCard.Pin = EncryptWithKey(loanCard.Pin, "boobafett");
+
+                    person.loanCard = loanCard;
+                }
+
                 context.SaveChanges();
             }
         }
 
-        
+
 
         public void AddBookIdToPersonLoanCard(int personId, int bookId)
         {

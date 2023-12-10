@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace VårbyBilbiotek.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class intital : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

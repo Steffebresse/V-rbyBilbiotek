@@ -24,7 +24,7 @@ namespace VårbyBilbiotek.Models
         public bool Loaned { get; set; } = false;
 
 
-        public DateTime? LoanDate { get; set; }
+        public DateTime? LoanDate { get; set; } = default;
         /*
         public DateTime? LoanDate
         {
@@ -50,7 +50,7 @@ namespace VårbyBilbiotek.Models
             }
         }
         */
-        public DateTime? ReturnDate { get; set; } // ska vara returnde date
+        public DateTime? ReturnDate { get; set; } = default;// ska vara returnde date
         public Guid Isbn { get; set; } = Guid.NewGuid();
 
         public int Grade { get; set; } = new Random().Next(1, 5);
@@ -63,6 +63,9 @@ namespace VårbyBilbiotek.Models
 
         public ICollection<Autor>? Autors { get; set; }
 
-        
+        public Book()
+        {
+            Autors = new List<Autor>();
+        }
     }   
 }
