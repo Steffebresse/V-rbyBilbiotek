@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ namespace VårbyBilbiotek.Models
         public static int Count;
 
 
-        public string Name { get; set; } = "Log:" + " " + ++Count;
+        public string Name { get; set; } = "Log:" + " " + Count;
 
         public string? Title { get; set; }
 
@@ -22,7 +23,10 @@ namespace VårbyBilbiotek.Models
         
         public Book? Book { get; set; }
 
-        
+        public Log()
+        {
+            Count++;
+        }
 
     }
 }

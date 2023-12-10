@@ -92,6 +92,8 @@ namespace VårbyBilbiotek.Data
             }
         }
 
+        
+
 
         public void AddPersonToDatabase(string firstName, string lastName)
         {
@@ -124,6 +126,27 @@ namespace VårbyBilbiotek.Data
 
                 context.Books.Add(book);
                 context.SaveChanges();
+            }
+        }
+
+        public void AddAuthortobook(int bookId, int authorId)
+        {
+            using (var context = new Context())
+            {
+                var book = context.Books.SingleOrDefault(p => p.Id == bookId);
+                var author = context.Autors.SingleOrDefault(p => p.Id == authorId);
+
+                if (book != null && author != null)
+                {
+                    book.Autors.Add(author);
+                    author.Books.Add(book);
+                }
+                else
+                {
+                    return;
+                }
+
+
             }
         }
 
@@ -169,6 +192,8 @@ namespace VårbyBilbiotek.Data
             }
         }
 
+        
+
         public void AddBookIdToPersonLoanCard(int personId, int bookId)
         {
             using (var context = new Context())
@@ -204,6 +229,9 @@ namespace VårbyBilbiotek.Data
                 {
                     Console.WriteLine($"No book with id #{bookId}\nReturn nothing!");
                 }
+
+
+                
             }
         }
 
@@ -220,15 +248,20 @@ namespace VårbyBilbiotek.Data
                 context.Autors.RemoveRange(allAutors);
                 var allLoanC = context.LoanC.ToList();
                 context.RemoveRange(allLoanC);
+                var AllLogs = context.Logs.ToList();
+                context.RemoveRange(AllLogs);
 
                 context.Database.ExecuteSqlRaw("DBCC CHECKIDENT ('Persons', RESEED, 0)");
                 context.Database.ExecuteSqlRaw("DBCC CHECKIDENT ('Books', RESEED, 0)");
                 context.Database.ExecuteSqlRaw("DBCC CHECKIDENT ('Autors', RESEED, 0)");
                 context.Database.ExecuteSqlRaw("DBCC CHECKIDENT ('LoanC', RESEED, 0)");
+                context.Database.ExecuteSqlRaw("DBCC CHECKIDENT ('Logs', RESEED, 0)");
 
                 context.SaveChanges();
             }
         }
+
+
 
         public void RemoveBookFDB(int bookId)
         {
